@@ -153,9 +153,9 @@ void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
 
 void iniciarPrograma() {
     //definicion de variables con memoria dinamica
-    char *cad1 = (char *)malloc(50* sizeof(char));
-    char *cad2 = (char *)malloc(50* sizeof(char));
-    char *resultado = (char *)malloc(150* sizeof(char));
+    char *cad1 = (char *)malloc(50 * sizeof(char));
+    char *cad2 = (char *)malloc(50 * sizeof(char));
+    char *resultado = (char *)malloc(150 * sizeof(char));
     int *opcion = (int *)malloc(sizeof(int));
 
     //ingresar las cadenas
