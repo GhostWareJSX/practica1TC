@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 
+//Funcion extra para selecionar las cadenas
 const char* seleccionarCadena(const char *cad1, const char *cad2) {
     int eleccion;
     printf("¿Con qué cadena deseas operar?\n1. Primera cadena\n2. Segunda cadena\nSelecciona una opción: ");
@@ -11,11 +12,13 @@ const char* seleccionarCadena(const char *cad1, const char *cad2) {
     return cad2;
 }
 
+//Funcion para concatenar las dos cadenas
 void concatenarCadenas(const char *cad1, const char *cad2, char *resultado) {
     strcpy(resultado, cad1);
     strcat(resultado, cad2);
 }
 
+//Funcion para invertir la cadena
 void invertirCadena(const char *cad1, char *invertida) {
     int len = strlen(cad1);
     const char *finCadena = cad1 + len - 1;
@@ -25,6 +28,7 @@ void invertirCadena(const char *cad1, char *invertida) {
     *(invertida + len) = '\0';
 }
 
+//Funcion para calcular la potencia de la cadena seleccionada
 void calcularPotencia(const char *cad1, char *resultado) {
     char *invertida = (char *)malloc(50 * sizeof(char));
     int n;
@@ -49,15 +53,17 @@ void calcularPotencia(const char *cad1, char *resultado) {
     free(invertida);
 }
 
+// Funcion para calcular la longitud de la cadena seleccionada
 void calcularLongitud(const char *cadena) {
     int longitud = strlen(cadena);
     printf("Longitud de la cadeana: %d", longitud);
 }
 
+//Mostrar los prefijos
 void mostrarPrefijos(const char *cadena) {
     int longitud = strlen(cadena);
     printf("Prefijos de la cadena:\n");
-    printf("\u03BB\n");
+    printf("\u03BB\n"); // Cadena vacio (lambda)
     for (int i = 1; i <= longitud; i++) {
         char *prefijo = (char *)malloc((i + 1) * sizeof(char));
         strncpy(prefijo, cadena, i);
@@ -67,10 +73,11 @@ void mostrarPrefijos(const char *cadena) {
     }
 }
 
+//Mostrar los sufijos
 void mostrarSufijos(const char *cadena) {
     int longitud = strlen(cadena);
     printf("Sufijos de la cadena:\n");
-    printf("\u03BB\n"); // Sufijo vacio
+    printf("\u03BB\n"); // Cadena vacio (lambda)
     for (int i = longitud -1 ; i >= 0; i--) {
         char *sufijo = (char *)malloc((longitud - i + 1) * sizeof(char));
         strcpy(sufijo, cadena + i);
@@ -78,6 +85,7 @@ void mostrarSufijos(const char *cadena) {
         free(sufijo);
     }
 }
+//Funcion para mostrar las subcadenas
 void mostrarSubcadenas(const char *cadena) {
     int longitud = strlen(cadena);
 
@@ -89,6 +97,8 @@ void mostrarSubcadenas(const char *cadena) {
         }
     }
 }
+
+//Funcion para mostrar las subsecuencias
 void mostrarSubsecuencias(const char *cadena) {
     int longitud = strlen(cadena);
     if (longitud > 14) {
@@ -111,6 +121,7 @@ void mostrarSubsecuencias(const char *cadena) {
     }
 }
 
+//mostrar menu del programa
 void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
     printf("\n--- MENU ---\n");
     printf("1. Concatenar\n");
@@ -141,22 +152,24 @@ void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
 }
 
 void iniciarPrograma() {
+    //definicion de variables con memoria dinamica
     char *cad1 = (char *)malloc(50* sizeof(char));
     char *cad2 = (char *)malloc(50* sizeof(char));
     char *resultado = (char *)malloc(150* sizeof(char));
     int *opcion = (int *)malloc(sizeof(int));
 
+    //ingresar las cadenas
     printf("Ingresa la primera cadena:\n");
     scanf("%49s", cad1);
     printf("Ingresa la segunda cadena:\n");
     scanf("%49s", cad2);
 
+    //mostrar repetitivamente el menu
     do {
         menu(opcion, cad1, cad2, resultado);
-        // Aquí iría la lógica para cada opción
     } while(*opcion != 8);
 
-    // Liberar memoria
+    //liberar memoria
     free(cad1);
     free(cad2);
     free(resultado);
@@ -164,6 +177,7 @@ void iniciarPrograma() {
 }
 
 int main(int argc, char *argv[]) {
+    //iniciar Programa
     iniciarPrograma();
     return 0;
 }
