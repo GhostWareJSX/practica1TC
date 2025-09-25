@@ -6,7 +6,7 @@
 //Funcion extra para selecionar las cadenas
 const char* seleccionarCadena(const char *cad1, const char *cad2) {
     int eleccion;
-    printf("¿Con qué cadena deseas operar?\n1. Primera cadena\n2. Segunda cadena\nSelecciona una opción: ");
+    printf("¿Con qué cadena deseas operar?\n1. Primera cadena (%s) \n2. Segunda cadena (%s) \nSelecciona una opción: ", cad1, cad2);
     scanf("%d", &eleccion);
     if (eleccion == 1) return cad1;
     return cad2;
@@ -140,7 +140,7 @@ void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
             concatenarCadenas(cad1, cad2, resultado);
             printf("Concatenacion de las dos cadenas: %s\n", resultado);
             break;
-        case 2: calcularPotencia(seleccionarCadena(cad1, cad1), resultado); break;
+        case 2: calcularPotencia(seleccionarCadena(cad1, cad2), resultado); break;
         case 3: calcularLongitud(seleccionarCadena(cad1, cad2)); break;
         case 4: mostrarPrefijos(seleccionarCadena(cad1, cad2)); break;
         case 5: mostrarSufijos(seleccionarCadena(cad1, cad2)); break;
