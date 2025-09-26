@@ -4,11 +4,29 @@
 #include <math.h>
 
 //Funcion extra para selecionar las cadenas
-const char* seleccionarCadena(const char *cad1, const char *cad2) {
+const char* seleccionarCadena(const char *cad1, const char *cad2, const char *resultado) {
     int eleccion;
-    printf("¿Con qué cadena deseas operar?\n1. Primera cadena (%s) \n2. Segunda cadena (%s) \nSelecciona una opción: ", cad1, cad2);
+    printf("Seleccione la cadena con que deseas operar:\n");
+    printf("1. Primera cadena (%s)\n", cad1);
+    printf("2. Segunda cadena (%s)\n", cad2);
+    if (resultado[0] == '\0') {
+        printf("3. Tercera cadena (resultado) (vacía)\n");
+    } else {
+        printf("3. Tercera cadena (resultado) (%s)\n", resultado);
+    }
+    printf("Selecciona una opción: ");
     scanf("%d", &eleccion);
+
     if (eleccion == 1) return cad1;
+    if (eleccion == 2) return cad2;
+    if (eleccion == 3) {
+        if (resultado[0] == '\0') {
+            printf("La cadena seleccionada está vacía. Regresando al menú.\n");
+            return NULL;
+        }
+        return resultado;
+    }
+    // Opción no válida: por defecto regresar a la segunda
     return cad2;
 }
 
@@ -29,26 +47,26 @@ void invertirCadena(const char *cad1, char *invertida) {
 }
 
 //Funcion para calcular la potencia de la cadena seleccionada
-void calcularPotencia(const char *cad1, char *resultado) {
+void calcularPotencia(const char *cad1, char *temp) {
     char *invertida = (char *)malloc(50 * sizeof(char));
     int n;
     printf("Numero de potencia de la cadeana deseada: ");
     scanf("%d", &n);
-    resultado[0] = '\0'; // Asegurarse de que el resultado esté vacío
+    temp[0] = '\0'; // Asegurarse de que el resultado esté vacío
 
     if ( n == 0 ) {
         printf("\u03BB\n");
     } else if ( n > 0 ) {
         for (int i = 0; i < n; i++) {
-            strcat(resultado, cad1);
+            strcat(temp, cad1);
         }
-        printf("Cadena resultante: %s\n", resultado);
+        printf("Cadena resultante: %s\n", temp);
     } else {
         invertirCadena(cad1, invertida);
         for (int i = 0; i < -n; i++) {
-            strcat(resultado, invertida);
+            strcat(temp, invertida);
         }
-        printf("Resultado: %s\n", resultado);
+        printf("Resultado: %s\n", temp);
     }
     free(invertida);
 }
@@ -122,7 +140,7 @@ void mostrarSubsecuencias(const char *cadena) {
 }
 
 //mostrar menu del programa
-void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
+void menu(int *opcion, const char *cad1, const char *cad2, char *resultado, char *temp) {
     printf("\n--- MENU ---\n");
     printf("1. Concatenar\n");
     printf("2. Potencia\n");
@@ -140,12 +158,43 @@ void menu(int *opcion, const char *cad1, const char *cad2, char *resultado) {
             concatenarCadenas(cad1, cad2, resultado);
             printf("Concatenacion de las dos cadenas: %s\n", resultado);
             break;
-        case 2: calcularPotencia(seleccionarCadena(cad1, cad2), resultado); break;
-        case 3: calcularLongitud(seleccionarCadena(cad1, cad2)); break;
-        case 4: mostrarPrefijos(seleccionarCadena(cad1, cad2)); break;
-        case 5: mostrarSufijos(seleccionarCadena(cad1, cad2)); break;
-        case 6: mostrarSubcadenas(seleccionarCadena(cad1, cad2)); break;
-        case 7: mostrarSubsecuencias(seleccionarCadena(cad1, cad2)); break;
+        case 2: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            calcularPotencia(sel, temp);
+            strcpy(resultado, temp); // Copia el resultado a la variable resultado
+            break;
+        }
+        case 3: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            calcularLongitud(sel);
+            break;
+        }
+        case 4: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            mostrarPrefijos(sel);
+            break;
+        }
+        case 5: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            mostrarSufijos(sel);
+            break;
+        }
+        case 6: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            mostrarSubcadenas(sel);
+            break;
+        }
+        case 7: {
+            const char *sel = seleccionarCadena(cad1, cad2, resultado);
+            if (sel == NULL) break;
+            mostrarSubsecuencias(sel);
+            break;
+        }
         case 8: printf("Saliendo del programa...\n"); break;
         default: printf("Opcion no valida. Intenta de nuevo.\n"); break;
     }
@@ -156,7 +205,11 @@ void iniciarPrograma() {
     char *cad1 = (char *)malloc(50 * sizeof(char));
     char *cad2 = (char *)malloc(50 * sizeof(char));
     char *resultado = (char *)malloc(150 * sizeof(char));
+    char *temp = (char *)malloc(150 * sizeof(char));
     int *opcion = (int *)malloc(sizeof(int));
+
+    // Inicializar resultado como cadena vacía (tercera cadena)
+    resultado[0] = '\0';
 
     //ingresar las cadenas
     printf("Ingresa la primera cadena:\n");
@@ -166,13 +219,14 @@ void iniciarPrograma() {
 
     //mostrar repetitivamente el menu
     do {
-        menu(opcion, cad1, cad2, resultado);
+        menu(opcion, cad1, cad2, resultado, temp);
     } while(*opcion != 8);
 
     //liberar memoria
     free(cad1);
     free(cad2);
     free(resultado);
+    free(temp);
     free(opcion);
 }
 
