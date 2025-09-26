@@ -3,6 +3,21 @@
 #include <string.h>
 #include <math.h>
 
+//Funcion para pedir una cadena
+void pedirCadena(char *cadena, const char *mensaje) {
+    while (1) {
+        printf("%s", mensaje);
+        scanf("%s", cadena);
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        if (strlen(cadena) > 50) {
+            printf("La cadena excede 49 caracteres. Intenta de nuevo.\n");
+        } else {
+            break;
+        }
+    }
+}
+
 //Funcion extra para selecionar las cadenas
 const char* seleccionarCadena(const char *cad1, const char *cad2, const char *resultado) {
     int eleccion;
@@ -48,9 +63,9 @@ void invertirCadena(const char *cad1, char *invertida) {
 
 //Funcion para calcular la potencia de la cadena seleccionada
 void calcularPotencia(const char *cad1, char *temp) {
-    char *invertida = (char *)malloc(50 * sizeof(char));
+    char *invertida = (char *)malloc(51 * sizeof(char));
     int n;
-    printf("Numero de potencia de la cadeana deseada: ");
+    printf("Numero de potencia de la cadena deseada: ");
     scanf("%d", &n);
     temp[0] = '\0'; // Asegurarse de que el resultado esté vacío
 
@@ -74,7 +89,7 @@ void calcularPotencia(const char *cad1, char *temp) {
 // Funcion para calcular la longitud de la cadena seleccionada
 void calcularLongitud(const char *cadena) {
     int longitud = strlen(cadena);
-    printf("Longitud de la cadeana: %d", longitud);
+    printf("Longitud de la cadena: %d", longitud);
 }
 
 //Mostrar los prefijos
@@ -202,8 +217,8 @@ void menu(int *opcion, const char *cad1, const char *cad2, char *resultado, char
 
 void iniciarPrograma() {
     //definicion de variables con memoria dinamica
-    char *cad1 = (char *)malloc(50 * sizeof(char));
-    char *cad2 = (char *)malloc(50 * sizeof(char));
+    char *cad1 = (char *)malloc(51 * sizeof(char));
+    char *cad2 = (char *)malloc(51 * sizeof(char));
     char *resultado = (char *)malloc(150 * sizeof(char));
     char *temp = (char *)malloc(150 * sizeof(char));
     int *opcion = (int *)malloc(sizeof(int));
@@ -212,10 +227,8 @@ void iniciarPrograma() {
     resultado[0] = '\0';
 
     //ingresar las cadenas
-    printf("Ingresa la primera cadena:\n");
-    scanf("%49s", cad1);
-    printf("Ingresa la segunda cadena:\n");
-    scanf("%49s", cad2);
+    pedirCadena(cad1, "Ingresa la primera cadena:\n");
+    pedirCadena(cad2, "Ingresa la segunda cadena:\n");
 
     //mostrar repetitivamente el menu
     do {
